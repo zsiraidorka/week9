@@ -11,7 +11,8 @@ namespace week9.Entities
 
         public int Age { get; set; }
         public int NbrOfChildren { get; set; }
-        public int Double P { get; set; }
+
+        public double P { get; set; }
     } 
 
 }
