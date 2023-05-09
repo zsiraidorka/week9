@@ -15,18 +15,35 @@ namespace week9
     public partial class Form1 : Form
     {
         List<Person> Population = new List<Person>();
-        List<BirthProbability> BirthProbabilities = new List<BirthProbability>();
-        List<DeathProbability> DeathProbabilities = new List<DeathProbability>();
+        List<BirthProbality> BirthProbabilities = new List<BirthProbality>();
+        List<DeathProbality> DeathProbabilities = new List<DeathProbality>();
         public Form1()
         {
             InitializeComponent();
-            Population = GetPopulation(@"C:\Temp\nép.csv");
-            BirthProbabilities = GetBirthProbabilities(@"C:\Temp\születés.csv");
-            DeathProbabilities = GetDeathProbabilities(@"C:\Temp\halál.csv");
+            Population = GetPopulation(@"C:\Temp\nép-teszt.csv");
+            BirthProbabilities = GetBirthprobality(@"C:\Temp\születés.csv");
+            DeathProbabilities = GetDeathprobality(@"C:\Temp\halál.csv");
 
+            for (int year = 2005; year <= 2024; year++)
+            {
+                for (int i = 0; i < Population.Count; i++)
+                {
+                   
+                }
 
+                int nbrOfMales = (from x in Population
+                                  where x.Gender == Gender.Male && x.IsAlive
+                                  select x).Count();
+                int nbrOfFemales = (from x in Population
+                                    where x.Gender == Gender.Female && x.IsAlive
+                                    select x).Count();
+                Console.WriteLine(
+                    string.Format("Év:{0} Fiúk:{1} Lányok:{2}", year, nbrOfMales, nbrOfFemales));
+            }
         }
-        public List<Person> GetPopulation(string csvpath)
+
+        
+        public List<Person>GetPopulation (string csvpath)
         {
             List<Person> population = new List<Person>();
 
@@ -40,6 +57,47 @@ namespace week9
                         BirthYear = int.Parse(line[0]),
                         Gender = (Gender)Enum.Parse(typeof(Gender), line[1]),
                         NbrOfChildren = int.Parse(line[2])
+                    });
+                }
+            }
+
+            return population;
+        }
+        public List<BirthProbality> GetBirthprobality(string csvpath)
+        {
+            List<BirthProbality> population = new List<BirthProbality>();
+
+            using (StreamReader sr = new StreamReader(csvpath, Encoding.Default))
+            {
+                while (!sr.EndOfStream)
+                {
+                    var line = sr.ReadLine().Split(';');
+                    BirthProbabilities.Add(new BirthProbality()
+                    {
+                        Age = int.Parse(line[0]),
+                        NbrOfChildren = int.Parse(line[1]),
+                        P = double.Parse(line[2])
+                    });
+                }
+            }
+
+            return population;
+        }
+
+        public List<DeathProbality> GetDeathprobality(string csvpath)
+        {
+            List<DeathProbality> population = new List<DeathProbality>();
+
+            using (StreamReader sr = new StreamReader(csvpath, Encoding.Default))
+            {
+                while (!sr.EndOfStream)
+                {
+                    var line = sr.ReadLine().Split(';');
+                    DeathProbabilities.Add(new DeathProbality()
+                    {
+                        Gender = (Gender)Enum.Parse(typeof(Gender), line[0]),
+                        Age = int.Parse(line[1]),
+                        P = double.Parse(line[2])
                     });
                 }
             }
