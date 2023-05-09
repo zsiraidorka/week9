@@ -37,13 +37,12 @@ namespace week9
                 int nbrOfFemales = (from x in Population
                                     where x.Gender == Gender.Female && x.IsAlive
                                     select x).Count();
-                Console.WriteLine(
-                    string.Format("Év:{0} Fiúk:{1} Lányok:{2}", year, nbrOfMales, nbrOfFemales));
+                Console.WriteLine(string.Format("Év:{0} Fiúk:{1} Nők:{2}", year, nbrOfMales, nbrOfFemales));
             }
         }
 
         
-        public List<Person>GetPopulation (string csvpath)
+        public List<Person> GetPopulation(string csvpath)
         {
             List<Person> population = new List<Person>();
 
